@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <style>
+        .container {
+            width: 70%;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Modern JS</h1>
+
+<div class="container">
+    <div style="float: left">
+        <div class="float-child">
+            <form id="studentForm">
+                <input type="text" id="name"><br>
+                <input type="number" id="age"><br>
+                <button onclick="addStudent()" type="button">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div style="float: left; margin-left: 20px">
+        <div class="float-child">
+            <input oninput="searchStudent()" type="text" id="searchInput">
+
+            <div id="searchResults">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let students = [];
+
+    const addStudent = () => {
+        let name = document.getElementById('name').value;
+        let age = document.getElementById('age').value;
+
+        students.push({
+            name: name,
+            age: age
+        })
+
+        document.getElementById('studentForm').reset();
+        appendStudents(students);
+
+    }
+
+    const searchStudent = () => {
+
+        let searchValue = document.getElementById('searchInput').value.trim();
+        if (searchValue!==''){
+            //filter age
+            // const filteredStudents = students.filter(std => std.age < parseInt(searchValue))
+
+            //filter name
+            const filteredStudents = students.filter(std => std.name.includes(searchValue))
+
+            appendStudents(filteredStudents);
+        }else {
+            appendStudents();
+        }
+
+    }
+
+    const appendStudents = (stu=null) => {
+        let studentData = students
+        if (stu){
+            studentData = stu
+        }
+
+        //Add filtered data
+        let ul = '<ul>';
+        studentData.forEach((stu)=>{
+            ul += `<li>${stu.name} - ${stu.age}</li>`;
+        });
+        ul+='</ul>';
+
+        document.getElementById('searchResults').innerHTML = ul;
+    }
+
+</script>
+
+
+<script src="main.js"></script>
+</body>
+</html>
